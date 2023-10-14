@@ -6,3 +6,6 @@ PROJECT NAME: aboutMoney
 <br>
 This project is a CRUD Web Application for store income and expenses datas. Created by Angular and fetch API from database.
 And responsive page for easy to use and set minimal colors
+<br>
+Created by Worapon Klabsri (Tell)<br>
+From University of Phayao, ICT, Software Engineering Year 2
