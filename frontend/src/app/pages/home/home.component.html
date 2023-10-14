@@ -1,0 +1,144 @@
+<div class="text-stone-800 grid grid-cols-1 place-items-center place-content-start min-h-[75vh] my-16">
+
+    <div class="w-3/4 grid grid-cols-1">
+        <div class="bg-orange-400 w-2/5 rounded-t-lg pl-4 py-2 ">
+            <h2 class="text-4xl font-medium max-[690px]:text-xl"><i class="bi bi-wallet-fill text-white mr-4"></i>ภาพรวม</h2>
+        </div>
+        <div class="grid grid-cols-[auto_auto_30%] rounded-b-lg rounded-tr-lg bg-stone-800 place-items-center overflow-hidden  
+        max-[1240px]:grid-cols-[auto_auto_40%]">
+            <div class="flex text-white text-2xl justify-center items-center">
+                <i class="bi bi-piggy-bank-fill mr-2 max-[890px]:hidden"></i>
+                <h3 class="max-[1320px]:hidden">ผลรวมรายรับ</h3>
+                <h2 class="text-green-400 text-3xl ml-4 max-[660px]:text-2xl" *ngFor="let item of incSumAmount">{{ item.inc_amount }}</h2>
+            </div>
+            <div class="flex text-white text-2xl justify-center items-center justify-self-start">
+                <i class="bi bi-currency-exchange mr-2 max-[890px]:hidden"></i>
+                <h3 class="max-[1320px]:hidden">ผลรวมรายจ่าย</h3>
+                <h2 class="text-red-400 text-3xl ml-4 max-[660px]:text-2xl" *ngFor="let item of exSumAmount">{{ item.ex_amount}}</h2>
+            </div>
+            <div class="flex text-stone-800 font-medium text-3xl justify-center items-center bg-orange-400 py-4 w-full">
+                <i class="bi bi-plus-slash-minus mr-2 max-[890px]:hidden"></i>
+                <h3 class="max-[1320px]:hidden">ผลต่าง</h3>
+                <h2 class="text-4xl ml-4 font-bold text-white max-[660px]:text-3xl" *ngFor="let item of totalAmount">{{ item.netAmount }}</h2>
+            </div>
+        </div>
+    </div>
+
+    <div class="grid grid-cols-2 py-8 w-3/4 gap-6 max-lg:grid-cols-1">
+
+
+        <!--------------------- INCOME FORM --------------------->
+        <div class="flex flex-col gap-4">
+            <div class="flex flex-col">
+                <div class="rounded-t-lg  w-1/2 pl-3 py-1 bg-orange-400">
+                    <h1 class="text-xl font-medium"><i class="bi bi-piggy-bank-fill text-white mr-1"></i> รายรับ</h1>
+                </div>
+                <div class="rounded-b-lg rounded-tr-lg p-2 bg-stone-800">
+                    <div>
+                        <form class="flex justify-between gap-2" [formGroup]="incomeForm" (submit)="addIncData()">
+                            <select formControlName="inputInctypeID" name="inctype" class="px-2 rounded">
+                                <option value="" disabled selected>-- ชนิด --</option>
+                                <option *ngFor="let itemInc of inctypeData" [value]="itemInc.inctypeID">{{ itemInc.inctypeName}}</option>
+                            </select>
+                            <div class="relative w-full">
+                                <span class="absolute ml-2 left-0 h-full flex justify-center items-center text-orange-400">฿</span>
+                                <input formControlName="inputIncAmount" class="w-full h-full py-1 pl-6 rounded focus:outline-none" placeholder="1000.00"/>
+                            </div>
+                            <button class="text-white bg-orange-400 px-4 rounded transition-colors hover:bg-orange-600">เพิ่ม</button>
+                        </form>
+                    </div>
+                    <div class="mt-4">
+                        <div class="flex justify-between">
+                            <h2 class="text-white text-2xl">รายการทั้งหมด</h2>
+                            <button (click)="deleteAllIncome()" class="bg-white px-2 rounded transition-colors hover:bg-red-400 hover:text-white"><i class="bi bi-calendar-x mr-2" ></i>ลบรายการทั้งหมด</button>
+                        </div>
+                        <div class="mt-2">
+                            <div class="grid grid-cols-4 w-full place-items-center font-medium text-xl rounded-t-lg bg-orange-400 overflow-hidden">
+                                <h3>ชนิด</h3>
+                                <h3>ราคา</h3>
+                                <h3>วันที่</h3>
+                                <div class="bg-stone-700 w-full grid place-items-center text-orange-400">
+                                    <h3>จัดการ</h3>
+                                </div>
+                            </div>
+                            <div class="rounded-b-lg bg-white divide-y-2 overflow-hidden">
+                                <div *ngIf="incData && incData.length > 0">
+                                    <div *ngFor="let item of incData; index as i" class="grid grid-cols-4 w-full place-items-center">
+                                        <p>{{ getInctypeName(item.inctypeID) }}</p>
+                                        <p>{{ item.incAmount }}</p>
+                                        <p>{{ item.incDate }}</p>
+                                        <div class="bg-stone-600 w-full h-full flex justify-center items-center gap-2 py-1">
+                                            <button (click)="editSingleIncome(i)" title="แก้ไข" class="bg-white px-2 rounded transition-colors hover:bg-blue-400 hover:text-white"><i class="bi bi-pencil-square"></i></button>
+                                            <button (click)="deleteSingleIncome(i)" title="ลบ" class="bg-white px-2 rounded transition-colors hover:bg-red-400 hover:text-white"><i class="bi bi-x"></i></button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div *ngIf="incData && incData.length === 0" class="flex justify-center items-center py-2">
+                                    <p>-- ข้อมูลว่าง --</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!--------------------- EXPENSES FORM --------------------->
+        <div class="flex flex-col gap-4">
+            <div class="flex flex-col">
+                <div class="rounded-t-lg  w-1/2 pl-3 py-1 bg-orange-400">
+                    <h1 class="text-xl font-medium"><i class="bi bi-currency-exchange text-white mr-1"></i> รายจ่าย</h1>
+                </div>
+                <div class="rounded-b-lg rounded-tr-lg p-2 bg-stone-800">
+                    <div>
+                        <form class="flex justify-between gap-2" [formGroup]="expenseForm" (submit)="addExData()">
+                            <select formControlName="inputExtypeID" name="extype" class="px-2 rounded">
+                                <option value="" disabled selected>-- ชนิด --</option>
+                                <option *ngFor="let itemEx of extypeData" [value]="itemEx.extypeID">{{ itemEx.extypeName}}</option>
+                            </select>
+                            <div class="relative w-full">
+                                <span class="absolute ml-2 left-0 h-full flex justify-center items-center text-orange-400">฿</span>
+                                <input formControlName="inputExAmount" class="w-full h-full py-1 pl-6 rounded focus:outline-none" placeholder="1000.00"/>
+                            </div>
+                            <button class="text-white bg-orange-400 px-4 rounded transition-colors hover:bg-orange-600">เพิ่ม</button>
+                        </form>
+                    </div>
+                    <div class="mt-4">
+                        <div class="flex justify-between">
+                            <h2 class="text-white text-2xl">รายการทั้งหมด</h2>
+                            <button (click)="deleteAllExpenses()" class="bg-white px-2 rounded transition-colors hover:bg-red-400 hover:text-white"><i class="bi bi-calendar-x mr-2" ></i>ลบรายการทั้งหมด</button>
+                        </div>
+                        <div class="mt-2">
+                            <div class="grid grid-cols-4 w-full place-items-center font-medium text-xl rounded-t-lg bg-orange-400 overflow-hidden">
+                                <h3>ชนิด</h3>
+                                <h3>ราคา</h3>
+                                <h3>วันที่</h3>
+                                <div class="bg-stone-700 w-full grid place-items-center text-orange-400">
+                                    <h3>จัดการ</h3>
+                                </div>
+                            </div>
+                            <div class="rounded-b-lg bg-white divide-y-2 overflow-hidden">
+                                <div *ngIf="exData && exData.length > 0">
+                                    <div *ngFor="let item of exData; index as i" class="grid grid-cols-4 w-full place-items-center">
+                                        <p>{{ getExtypeName(item.extypeID) }}</p>
+                                        <p>{{ item.exAmount }}</p>
+                                        <p>{{ item.exDate }}</p>
+                                        <div class="bg-stone-600 w-full h-full flex justify-center items-center gap-2 py-1">
+                                            <button (click)="editSingleExpenses(i)" title="แก้ไข" class="bg-white px-2 rounded transition-colors hover:bg-blue-400 hover:text-white"><i class="bi bi-pencil-square"></i></button>
+                                            <button (click)="deleteSingleExpenses(i)" title="ลบ" class="bg-white px-2 rounded transition-colors hover:bg-red-400 hover:text-white"><i class="bi bi-x"></i></button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div *ngIf="exData && exData.length === 0" class="flex justify-center items-center py-2">
+                                    <p>-- ข้อมูลว่าง --</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
