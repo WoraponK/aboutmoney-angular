@@ -143,7 +143,7 @@ export class HomeComponent implements OnInit {
     }).then((result) => {
       if (result.isConfirmed) {
         this.service.deleteEx(this.exData[i].exID).subscribe(() => {
-          this.exData.splice(i, 1);
+          window.location.reload();
         });
       }
     });
@@ -159,7 +159,7 @@ export class HomeComponent implements OnInit {
     }).then((result) => {
       if (result.isConfirmed) {
         this.service.deleteInc(this.incData[i].incID).subscribe(() => {
-          this.incData.splice(i, 1);
+          window.location.reload();
         });
       }
     });

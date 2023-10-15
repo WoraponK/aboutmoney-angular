@@ -396,7 +396,7 @@ app.get('/inctype/:id', (req, res) => {
 app.get('/ex_amount', (req, res) => {
     const qr =`
     SELECT 
-        SUM(exAmount) AS ex_amount
+        COALESCE(SUM(exAmount), 0) AS ex_amount
     FROM ex`;
 
     db.query(qr, (err, result) => {
@@ -418,7 +418,7 @@ app.get('/ex_amount', (req, res) => {
 app.get('/inc_amount', (req, res) => {
     const qr =`
     SELECT 
-        SUM(incAmount) AS inc_amount
+        COALESCE(SUM(incAmount), 0) AS inc_amount
     FROM inc`;
 
     db.query(qr, (err, result) => {
@@ -439,8 +439,8 @@ app.get('/inc_amount', (req, res) => {
 app.get('/total_amount', (req, res) => {
     const qr = `
         SELECT
-            (SELECT SUM(incAmount) FROM inc) -
-            (SELECT SUM(exAmount) FROM ex) 
+            (SELECT COALESCE(SUM(incAmount), 0) FROM inc) -
+            (SELECT COALESCE(SUM(exAmount), 0) FROM ex) 
             AS netAmount
     `;
 
