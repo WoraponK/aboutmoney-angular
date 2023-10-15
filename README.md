@@ -4,6 +4,12 @@
 
 PROJECT NAME: aboutMoney
 <br>
+<ul>
+  <li>AngularJS</li>
+  <li>MySQL</li>
+  <li>TailwindCSS</li>
+</ul>
+<br>
 This project is a CRUD Web Application for store income and expenses datas. Created by Angular and fetch API from database.
 And responsive page for easy to use and set minimal colors
 <br>
