@@ -19,3 +19,8 @@ And responsive page for easy to use and set minimal colors
 <br>
 Created by Worapon Klabsri (Tell)<br>
 From University of Phayao, ICT, Software Engineering Year 2
+
+<br><br><br>
+
+## ER Diagram
+![er_diagram](https://github.com/WoraponK/aboutmoney-angular/assets/138525570/417c28f3-455f-42a2-a34e-b53d07b675f8)
