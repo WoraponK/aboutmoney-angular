@@ -10,6 +10,10 @@ PROJECT NAME: aboutMoney
   <li>TailwindCSS</li>
 </ul>
 <br>
+VIDEOS <br>
+https://www.youtube.com/watch?v=ILdM8Kh2JoY
+<br>
+<br>
 This project is a CRUD Web Application for store income and expenses datas. Created by Angular and fetch API from database.
 And responsive page for easy to use and set minimal colors
 <br>
